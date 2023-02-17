@@ -7,7 +7,7 @@
   <this:DownloadAllAttachmentfromEveryMail.in_Config>
     <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" />
   </this:DownloadAllAttachmentfromEveryMail.in_Config>
-  <sap:VirtualizedContainerService.HintSize>510,1364</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1130.4,1442.4</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="50">
@@ -115,24 +115,24 @@
       <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="520,1299" sap2010:WorkflowViewState.IdRef="Sequence_17">
+  <Sequence DisplayName="Download attachment from every mail" sap:VirtualizedContainerService.HintSize="540,1377.6" sap2010:WorkflowViewState.IdRef="Sequence_17">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         <x:Boolean x:Key="IsPinned">False</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="478,92" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Started: Download All Attachment workflow&quot;]" />
-    <If Condition="[in_Mail.Attachments.Where(Function(ext) ext.Name.ToLower.Contains(in_Config(&quot;Extension_Zip&quot;).ToString)).Count&gt;0]" sap:VirtualizedContainerService.HintSize="478,947" sap2010:WorkflowViewState.IdRef="If_1">
+    <ui:LogMessage DisplayName="Log Message || Start download attachment workflow" sap:VirtualizedContainerService.HintSize="477.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Started: Download All Attachment workflow&quot;]" />
+    <If Condition="[in_Mail.Attachments.Where(Function(ext) ext.Name.ToLower.Contains(in_Config(&quot;Extension_Zip&quot;).ToString)).Count&gt;0]" DisplayName="If || check zip file in attachment" sap:VirtualizedContainerService.HintSize="477.6,1000" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="400,333" sap2010:WorkflowViewState.IdRef="Sequence_18">
+        <Sequence DisplayName="Sequence || perform action on zip file" sap:VirtualizedContainerService.HintSize="400,358.4" sap2010:WorkflowViewState.IdRef="Sequence_18">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="358,92" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Info: Attachment Contains zip File for this mail: &quot;+in_mail.Subject]" />
-          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="SaveZipFileAttachment.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="358,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="SaveZipFileAttachment.xaml">
+          <ui:LogMessage DisplayName="Log Message || attachment contains zip file" sap:VirtualizedContainerService.HintSize="337.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Info: Attachment Contains zip File for this mail: &quot;+in_mail.Subject]" />
+          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="SaveZipFileAttachment.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="337.6,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="SaveZipFileAttachment.xaml">
             <ui:InvokeWorkflowFile.Arguments>
               <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_mail">[in_Mail]</InArgument>
               <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
@@ -142,14 +142,14 @@
         </Sequence>
       </If.Then>
       <If.Else>
-        <Sequence sap:VirtualizedContainerService.HintSize="400,438" sap2010:WorkflowViewState.IdRef="Sequence_19">
+        <Sequence DisplayName="Save attachments without zip file" sap:VirtualizedContainerService.HintSize="400,463.2" sap2010:WorkflowViewState.IdRef="Sequence_19">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="358,92" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Info: No zip file is attached in this mail: &quot;+in_Mail.Subject]" />
-          <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" ExcludeInlineAttachments="True" FolderPath="[in_DateFolderPath]" sap:VirtualizedContainerService.HintSize="358,88" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_1" Message="[in_mail]" OverwriteExisting="False">
+          <ui:LogMessage DisplayName="Log Message || no zip file in attachment" sap:VirtualizedContainerService.HintSize="337.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Info: No zip file is attached in this mail: &quot;+in_Mail.Subject]" />
+          <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments || for every mail in todays date folder" ExcludeInlineAttachments="True" FolderPath="[in_DateFolderPath]" sap:VirtualizedContainerService.HintSize="337.6,88" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_1" Message="[in_mail]" OverwriteExisting="False">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -157,10 +157,10 @@
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
           </ui:SaveMailAttachments>
-          <Delay Duration="[TimeSpan.FromSeconds(CInt(in_Config(&quot;DelayForSavingAttachment&quot;)))]" sap:VirtualizedContainerService.HintSize="358,90" sap2010:WorkflowViewState.IdRef="Delay_1" />
+          <Delay DisplayName="Delay || wait for download attachments successfully" Duration="[TimeSpan.FromSeconds(CInt(in_Config(&quot;DelayForSavingAttachment&quot;)))]" sap:VirtualizedContainerService.HintSize="337.6,90.4" sap2010:WorkflowViewState.IdRef="Delay_1" />
         </Sequence>
       </If.Else>
     </If>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="478,92" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;Completed: Download all attachment workflow&quot;]" />
+    <ui:LogMessage DisplayName="Log Message || End download all attachment workflow" sap:VirtualizedContainerService.HintSize="477.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;Completed: Download all attachment workflow&quot;]" />
   </Sequence>
 </Activity>

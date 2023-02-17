@@ -3,13 +3,12 @@
     <x:Property Name="in_DateFolderPath" Type="InArgument(x:String)" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="in_SharedFolderPath" Type="InArgument(x:String)" />
-    <x:Property Name="in_KWEAIFolder" Type="InArgument(x:String)" />
     <x:Property Name="io_dt_TransactionData" Type="InOutArgument(sd:DataTable)" />
   </x:Members>
   <this:ExcelFormatting.in_Config>
     <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" />
   </this:ExcelFormatting.in_Config>
-  <sap:VirtualizedContainerService.HintSize>1130.4,3414.4</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1130.4,4580.8</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="50">
@@ -117,7 +116,7 @@
       <AssemblyReference>System.Data.SqlClient</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="This workflow is used to format the excel file as per requirements" DisplayName="Excel Formatting" sap:VirtualizedContainerService.HintSize="808,3349.6" sap2010:WorkflowViewState.IdRef="Sequence_16">
+  <Sequence sap2010:Annotation.AnnotationText="This workflow is used to format the excel file as per requirements" DisplayName="Excel Formatting" sap:VirtualizedContainerService.HintSize="808,4516" sap2010:WorkflowViewState.IdRef="Sequence_16">
     <Sequence.Variables>
       <Variable x:TypeArguments="s:String[]" Name="UnwantedColumns" />
     </Sequence.Variables>
@@ -129,13 +128,13 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log Message || start excel formatting worflow" sap:VirtualizedContainerService.HintSize="745.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;Started: Excel formatting workflow&quot;]" />
-    <ui:ExcelApplicationScope Password="{x:Null}" CreateNewFile="False" DisplayName="Excel Application Scope || input excel report" sap:VirtualizedContainerService.HintSize="745.6,2940.8" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[Directory.GetFiles(in_DateFolderPath,in_Config(&quot;Excel_ExtensionSearchPattern&quot;).ToString)(0)]">
+    <ui:ExcelApplicationScope Password="{x:Null}" CreateNewFile="False" DisplayName="Excel Application Scope || input excel report" sap:VirtualizedContainerService.HintSize="745.6,4107.2" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[Directory.GetFiles(in_DateFolderPath,in_Config(&quot;Excel_ExtensionSearchPattern&quot;).ToString)(0)]">
       <ui:ExcelApplicationScope.Body>
         <ActivityAction x:TypeArguments="ui:WorkbookApplication">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="712,2831.2" sap2010:WorkflowViewState.IdRef="Sequence_10">
+          <Sequence DisplayName="Do || Actions on invoice report file" sap:VirtualizedContainerService.HintSize="712,3997.6" sap2010:WorkflowViewState.IdRef="Sequence_10">
             <Sequence.Variables>
               <Variable x:TypeArguments="scg:List(x:String)" Name="SheetsName" />
               <Variable x:TypeArguments="x:Boolean" Name="IsColumnPresent" />
@@ -147,7 +146,7 @@
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <ui:ExcelGetWorkbookSheets DisplayName="Get Workbook Sheets || from input excel report" sap:VirtualizedContainerService.HintSize="649.6,24.8" sap2010:WorkflowViewState.IdRef="ExcelGetWorkbookSheets_1" Sheets="[SheetsName]" />
-            <If Condition="[SheetsName.AsEnumerable().Where(Function(s) s.tolower.Equals(in_Config(&quot;SheetName_InputExcelSheet1&quot;).ToString.ToLower)).ToArray().Length&gt;0]" DisplayName="If || check sheet1 existance" sap:VirtualizedContainerService.HintSize="649.6,2654.4" sap2010:WorkflowViewState.IdRef="If_3">
+            <If Condition="[SheetsName.AsEnumerable().Where(Function(s) s.tolower.Equals(in_Config(&quot;SheetName_InputExcelSheet1&quot;).ToString.ToLower)).ToArray().Length&gt;0]" DisplayName="If || check sheet1 existance" sap:VirtualizedContainerService.HintSize="649.6,3820.8" sap2010:WorkflowViewState.IdRef="If_3">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -155,9 +154,9 @@
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
               <If.Then>
-                <Sequence DisplayName="Sequence || perform actions on excel file" sap:VirtualizedContainerService.HintSize="572,2376" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                <Sequence DisplayName="Sequence || perform actions on excel file" sap:VirtualizedContainerService.HintSize="572,3542.4" sap2010:WorkflowViewState.IdRef="Sequence_11">
                   <Sequence.Variables>
-                    <Variable x:TypeArguments="sd:DataTable" Name="DT_KWESheet" />
+                    <Variable x:TypeArguments="sd:DataTable" Name="dt_KWESheet" />
                   </Sequence.Variables>
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -165,7 +164,7 @@
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
                   <ui:LogMessage DisplayName="Log Message || msg sheet existance" sap:VirtualizedContainerService.HintSize="509.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Info: &quot;+in_Config(&quot;SheetName_InputExcelSheet1&quot;).ToString+&quot; is available in input file&quot;]" />
-                  <ui:InvokeVBA OutputValue="{x:Null}" CodeFilePath="[path.combine(in_KWEAIFolder,in_Config(&quot;RenameSheetVBAPath&quot;).ToString)]" DisplayName="Invoke VBA || rename sheet1" EntryMethodName="[in_Config(&quot;VBAMethodName&quot;).ToString]" sap:VirtualizedContainerService.HintSize="509.6,88" sap2010:WorkflowViewState.IdRef="InvokeVBA_2" />
+                  <ui:InvokeVBA OutputValue="{x:Null}" CodeFilePath="[path.combine(path.Combine(in_SharedFolderPath,in_Config(&quot;KWEAPFolder&quot;).ToString),in_Config(&quot;RenameSheetVBAPath&quot;).ToString)]" DisplayName="Invoke VBA || rename sheet1" EntryMethodName="[in_Config(&quot;VBAMethodName&quot;).ToString]" sap:VirtualizedContainerService.HintSize="509.6,88" sap2010:WorkflowViewState.IdRef="InvokeVBA_2" />
                   <ui:ExcelReadRange AddHeaders="True" DataTable="[DT_KWESheet]" DisplayName="Read Range || read KWE sheet" sap:VirtualizedContainerService.HintSize="509.6,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" SheetName="[in_Config(&quot;SheetName_KWE&quot;).ToString]">
                     <ui:ExcelReadRange.Range>
                       <InArgument x:TypeArguments="x:String">
@@ -175,10 +174,18 @@
                   </ui:ExcelReadRange>
                   <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ExcelColumnsCheckWorkflow.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="509.6,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="ExcelColumnsCheckWorkflow.xaml">
                     <ui:InvokeWorkflowFile.Arguments>
-                      <InArgument x:TypeArguments="x:String" x:Key="in_ColumnsName">[in_Config("RequiredColumnNames").ToString]</InArgument>
-                      <OutArgument x:TypeArguments="x:Boolean" x:Key="out_IsColumnPresent">[IsColumnPresent]</OutArgument>
-                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DtTransactionData">[DT_KWESheet]</InArgument>
-                      <OutArgument x:TypeArguments="x:String" x:Key="out_AbsentColumnName">[AbsentColumnName]</OutArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_ColumnsName">
+                        <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;RequiredColumnNames&quot;).ToString" />
+                      </InArgument>
+                      <OutArgument x:TypeArguments="x:Boolean" x:Key="out_IsColumnPresent">
+                        <VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="IsColumnPresent" />
+                      </OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_AbsentColumnName">
+                        <VisualBasicReference x:TypeArguments="x:String" ExpressionText="AbsentColumnName" />
+                      </OutArgument>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TransactionData">
+                        <VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dt_KWESheet" />
+                      </InArgument>
                     </ui:InvokeWorkflowFile.Arguments>
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -187,10 +194,10 @@
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
                   </ui:InvokeWorkflowFile>
-                  <If Condition="[IsColumnPresent]" DisplayName="If || check columns name" sap:VirtualizedContainerService.HintSize="509.6,52.8" sap2010:WorkflowViewState.IdRef="If_9">
+                  <If Condition="[IsColumnPresent]" DisplayName="If || check columns name" sap:VirtualizedContainerService.HintSize="509.6,378.4" sap2010:WorkflowViewState.IdRef="If_9">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                         <x:Boolean x:Key="IsPinned">False</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
@@ -207,7 +214,7 @@
                         <ActivityAction.Argument>
                           <DelegateInArgument x:TypeArguments="x:String" Name="ReqColumn" />
                         </ActivityAction.Argument>
-                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="474.4,490.4" sap2010:WorkflowViewState.IdRef="Sequence_41">
+                        <Sequence DisplayName="Body || Required Column loop" sap:VirtualizedContainerService.HintSize="474.4,490.4" sap2010:WorkflowViewState.IdRef="Sequence_41">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -237,10 +244,10 @@
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
                   </ui:ForEach>
-                  <If Condition="[DT_KWESheet.Rows.Count=Directory.GetFiles(in_DateFolderPath,in_Config(&quot;Pdf_ExtensionSearchPattern&quot;).ToString).Count]" DisplayName="If || Check line items with no. of pdfs" sap:VirtualizedContainerService.HintSize="509.6,52.8" sap2010:WorkflowViewState.IdRef="If_7">
+                  <If Condition="[DT_KWESheet.Rows.Count=Directory.GetFiles(in_DateFolderPath,in_Config(&quot;Pdf_ExtensionSearchPattern&quot;).ToString).Count]" DisplayName="If || Check line items with no. of pdfs" sap:VirtualizedContainerService.HintSize="509.6,378.4" sap2010:WorkflowViewState.IdRef="If_7">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                         <x:Boolean x:Key="IsPinned">False</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
@@ -266,16 +273,16 @@
                       <InArgument x:TypeArguments="s:String[]">[in_Config("UnwantedColumns").ToString.Split(","c)]</InArgument>
                     </Assign.Value>
                   </Assign>
-                  <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each || column in unwanted column" sap:VirtualizedContainerService.HintSize="509.6,52.8" sap2010:WorkflowViewState.IdRef="ForEach`1_10" Values="[UnwantedColumns]">
+                  <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each || column in unwanted column" sap:VirtualizedContainerService.HintSize="509.6,703.2" sap2010:WorkflowViewState.IdRef="ForEach`1_10" Values="[UnwantedColumns]">
                     <ui:ForEach.Body>
                       <ActivityAction x:TypeArguments="x:String">
                         <ActivityAction.Argument>
                           <DelegateInArgument x:TypeArguments="x:String" Name="Column" />
                         </ActivityAction.Argument>
-                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="400,83.2" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                        <Sequence DisplayName="unwanted columns loop" sap:VirtualizedContainerService.HintSize="474.4,578.4" sap2010:WorkflowViewState.IdRef="Sequence_18">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                               <x:Boolean x:Key="IsPinned">False</x:Boolean>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
@@ -312,7 +319,7 @@
                     </ui:ForEach.Body>
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                         <x:Boolean x:Key="IsPinned">False</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
@@ -333,10 +340,10 @@
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
                   </ui:AddDataColumn>
-                  <ui:AddDataColumn x:TypeArguments="x:Object" AllowDBNull="{x:Null}" AutoIncrement="{x:Null}" Column="{x:Null}" DefaultValue="{x:Null}" MaxLength="{x:Null}" Unique="{x:Null}" ColumnName="[in_Config(&quot;ProcessedDateandTimeColumn&quot;).ToString]" DataTable="[DT_KWESheet]" DisplayName="Add Data Column || processed date time" sap:VirtualizedContainerService.HintSize="509.6,188" sap2010:WorkflowViewState.IdRef="AddDataColumn`1_3">
+                  <ui:AddDataColumn x:TypeArguments="x:Object" AllowDBNull="{x:Null}" AutoIncrement="{x:Null}" Column="{x:Null}" DefaultValue="{x:Null}" MaxLength="{x:Null}" Unique="{x:Null}" ColumnName="[in_Config(&quot;ProcessedDateandTimeColumn&quot;).ToString]" DataTable="[DT_KWESheet]" DisplayName="Add Data Column || processed date time" sap:VirtualizedContainerService.HintSize="509.6,52.8" sap2010:WorkflowViewState.IdRef="AddDataColumn`1_3">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                         <x:Boolean x:Key="IsPinned">False</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>

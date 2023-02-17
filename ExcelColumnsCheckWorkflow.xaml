@@ -2,8 +2,8 @@
   <x:Members>
     <x:Property Name="in_ColumnsName" Type="InArgument(x:String)" />
     <x:Property Name="out_IsColumnPresent" Type="OutArgument(x:Boolean)" />
-    <x:Property Name="in_DtTransactionData" Type="InArgument(sd:DataTable)" />
     <x:Property Name="out_AbsentColumnName" Type="OutArgument(x:String)" />
+    <x:Property Name="in_dt_TransactionData" Type="InArgument(sd:DataTable)" />
   </x:Members>
   <this:ExcelColumnsCheckWorkflow.in_ColumnsName>
     <InArgument x:TypeArguments="x:String" />
@@ -103,7 +103,7 @@
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:Annotation.AnnotationText="This workflow is used to check columns in excel file" DisplayName="ExcelColumnsCheckWorkflow" sap:VirtualizedContainerService.HintSize="733.6,1680.8" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="s:String[]" Name="Arr_ColumnsName" />
+      <Variable x:TypeArguments="s:String[]" Name="ColumnsName" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -122,13 +122,13 @@
     </Assign>
     <Assign DisplayName="Assign || Store the comma separated values in array" sap:VirtualizedContainerService.HintSize="671.2,81.6" sap2010:WorkflowViewState.IdRef="Assign_3">
       <Assign.To>
-        <OutArgument x:TypeArguments="s:String[]">[Arr_ColumnsName]</OutArgument>
+        <OutArgument x:TypeArguments="s:String[]">[ColumnsName]</OutArgument>
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="s:String[]">[in_ColumnsName.Split(","c)]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each || column in required columns" sap:VirtualizedContainerService.HintSize="671.2,1028.8" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[Arr_ColumnsName]">
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each || column in required columns" sap:VirtualizedContainerService.HintSize="671.2,1028.8" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[ColumnsName]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="x:String">
           <ActivityAction.Argument>
@@ -140,9 +140,9 @@
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <If Condition="[(From name in in_DtTransactionData.Columns.Cast(of datacolumn) select name.ColumnName).toarray().AsEnumerable().Where(Function(c) c.Equals(ColumnCheck)).ToArray().Length&gt;0]" DisplayName="If || check column names" sap:VirtualizedContainerService.HintSize="573.6,791.2" sap2010:WorkflowViewState.IdRef="If_1">
+            <If Condition="[(From name in in_dt_TransactionData.Columns.Cast(of datacolumn) select name.ColumnName).toarray().AsEnumerable().Where(Function(c) c.Equals(ColumnCheck)).ToArray().Length&gt;0]" DisplayName="If || check column names" sap:VirtualizedContainerService.HintSize="573.6,791.2" sap2010:WorkflowViewState.IdRef="If_1">
               <If.Then>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[ColumnCheck+&quot; Column is present in input excel&quot;]" />
+                <ui:LogMessage DisplayName="Log Message || Column present" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[ColumnCheck+&quot; Column is present in input excel&quot;]" />
               </If.Then>
               <If.Else>
                 <Sequence DisplayName="Sequence || assign flags" sap:VirtualizedContainerService.HintSize="496,512.8" sap2010:WorkflowViewState.IdRef="Sequence_4">

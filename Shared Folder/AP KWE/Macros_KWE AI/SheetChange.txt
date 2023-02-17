@@ -1,0 +1,9 @@
+Sub Rename_Sheet1()
+
+  Dim Ws As Worksheet
+ 
+  Set Ws = Worksheets("Sheet1")
+
+  Ws.Name = "KWE"
+
+End Sub

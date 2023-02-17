@@ -2,9 +2,9 @@
   <x:Members>
     <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="io_dt_AbbyOutput" Type="InOutArgument(sd:DataTable)" />
-    <x:Property Name="in_KWEAIFolder" Type="InArgument(x:String)" />
+    <x:Property Name="in_SharedFolderPath" Type="InArgument(x:String)" />
   </x:Members>
-  <sap:VirtualizedContainerService.HintSize>1130.4,2153.6</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1130.4,1132</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="50">
@@ -109,7 +109,7 @@
       <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="637.6,2088.8" sap2010:WorkflowViewState.IdRef="Sequence_31">
+  <Sequence DisplayName="Extract data from abby output workflow" sap:VirtualizedContainerService.HintSize="572,1067.2" sap2010:WorkflowViewState.IdRef="Sequence_31">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Boolean" Name="IsColumnPresent" />
       <Variable x:TypeArguments="x:String" Name="AbsentColumnName" />
@@ -120,21 +120,22 @@
         <x:Boolean x:Key="IsPinned">False</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <If Condition="[Directory.GetFiles(Path.Combine(in_KWEAIFolder,in_Config(&quot;AbbyOutputFolder&quot;).ToString),in_Config(&quot;Excel_ExtensionSearchPattern&quot;).ToString).AsEnumerable().Where(Function(n) n.ToLower.Contains((in_Config(&quot;AbbyOutputName&quot;).ToString+Now.ToString(in_Config(&quot;AbbyOutputNameDateformat&quot;).ToString)).ToLower)).ToArray().Length&gt;0]" DisplayName="If || check Abby output file existance" sap:VirtualizedContainerService.HintSize="575.2,867.2" sap2010:WorkflowViewState.IdRef="If_15">
+    <If Condition="[Directory.GetFiles(Path.Combine(path.Combine(in_SharedFolderPath,in_Config(&quot;KWEAPFolder&quot;).ToString),in_Config(&quot;AbbyOutputFolder&quot;).ToString),in_Config(&quot;Excel_ExtensionSearchPattern&quot;).ToString).AsEnumerable().Where(Function(n) n.ToLower.Contains((in_Config(&quot;AbbyOutputName&quot;).ToString+Now.ToString(in_Config(&quot;AbbyOutputNameDateformat&quot;).ToString)).ToLower)).ToArray().Length&gt;0]" DisplayName="If || check Abby output file existance" sap:VirtualizedContainerService.HintSize="509.6,52.8" sap2010:WorkflowViewState.IdRef="If_15">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="496,486.4" sap2010:WorkflowViewState.IdRef="Sequence_32">
+        <Sequence DisplayName="Actions on Abby output file" sap:VirtualizedContainerService.HintSize="400,83.2" sap2010:WorkflowViewState.IdRef="Sequence_32">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <If Condition="[New System.IO.FileInfo(Directory.GetFiles(Path.Combine(in_KWEAIFolder,in_Config(&quot;AbbyOutputFolder&quot;).ToString),in_Config(&quot;Excel_ExtensionSearchPattern&quot;).ToString).AsEnumerable().Where(Function(n) n.ToLower.Contains((in_Config(&quot;AbbyOutputName&quot;).ToString+Now.ToString(in_Config(&quot;AbbyOutputNameDateformat&quot;).ToString)).ToLower))(0)).Length=0]" sap:VirtualizedContainerService.HintSize="433.6,52.8" sap2010:WorkflowViewState.IdRef="If_18">
+          <If Condition="[New System.IO.FileInfo(Directory.GetFiles(Path.Combine(path.Combine(in_SharedFolderPath,in_Config(&quot;KWEAPFolder&quot;).ToString),in_Config(&quot;AbbyOutputFolder&quot;).ToString),in_Config(&quot;Excel_ExtensionSearchPattern&quot;).ToString).AsEnumerable().Where(Function(n) n.ToLower.Contains((in_Config(&quot;AbbyOutputName&quot;).ToString+Now.ToString(in_Config(&quot;AbbyOutputNameDateformat&quot;).ToString)).ToLower))(0)).Length=0]" DisplayName="If || Check abby output file size length" sap:VirtualizedContainerService.HintSize="337.6,52.8" sap2010:WorkflowViewState.IdRef="If_18">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -142,45 +143,31 @@
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <If.Then>
-              <Sequence sap:VirtualizedContainerService.HintSize="400,202.4" sap2010:WorkflowViewState.IdRef="Sequence_40">
-                <sap:WorkflowViewStateService.ViewState>
-                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                  </scg:Dictionary>
-                </sap:WorkflowViewStateService.ViewState>
-                <Throw Exception="[New BusinessRuleException(in_Config(&quot;BRE_AbbyOutputFileSize&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="337.6,90.4" sap2010:WorkflowViewState.IdRef="Throw_5" />
-              </Sequence>
+              <Throw DisplayName="Throw || BRE Abby output file size is zero" Exception="[New BusinessRuleException(in_Config(&quot;BRE_AbbyOutputFileSize&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="334.4,90.4" sap2010:WorkflowViewState.IdRef="Throw_5" />
             </If.Then>
             <If.Else>
-              <Sequence sap:VirtualizedContainerService.HintSize="400,204.8" sap2010:WorkflowViewState.IdRef="Sequence_41">
-                <sap:WorkflowViewStateService.ViewState>
-                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                  </scg:Dictionary>
-                </sap:WorkflowViewStateService.ViewState>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="337.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Info: Abby output file is not archived or of .temp type as size length is greater than zero&quot;]" />
-              </Sequence>
+              <ui:LogMessage DisplayName="Log Message || Abby output file length is &gt;0" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Info: Abby output file is not archived or of .temp type as size length is greater than zero&quot;]" />
             </If.Else>
           </If>
-          <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="433.6,281.6" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[Directory.GetFiles(Path.Combine(in_KWEAIFolder,in_Config(&quot;AbbyOutputFolder&quot;).ToString),in_Config(&quot;Excel_ExtensionSearchPattern&quot;).ToString).AsEnumerable().Where(Function(n) n.ToLower.Contains((in_Config(&quot;AbbyOutputName&quot;).ToString+Now.ToString(in_Config(&quot;AbbyOutputNameDateformat&quot;).ToString)).ToLower))(0)]">
+          <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope || Abby output file" sap:VirtualizedContainerService.HintSize="337.6,52.8" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[Directory.GetFiles(Path.Combine(path.Combine(in_SharedFolderPath,in_Config(&quot;KWEAPFolder&quot;).ToString),in_Config(&quot;AbbyOutputFolder&quot;).ToString),in_Config(&quot;Excel_ExtensionSearchPattern&quot;).ToString).AsEnumerable().Where(Function(n) n.ToLower.Contains((in_Config(&quot;AbbyOutputName&quot;).ToString+Now.ToString(in_Config(&quot;AbbyOutputNameDateformat&quot;).ToString)).ToLower))(0)]">
             <ui:ExcelApplicationScope.Body>
               <ActivityAction x:TypeArguments="ui:WorkbookApplication">
                 <ActivityAction.Argument>
                   <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
                 </ActivityAction.Argument>
-                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="400,172" sap2010:WorkflowViewState.IdRef="Sequence_34">
+                <Sequence DisplayName="Do || actions on abby output file" sap:VirtualizedContainerService.HintSize="400,172" sap2010:WorkflowViewState.IdRef="Sequence_34">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <ui:ExcelReadRange AddHeaders="True" DataTable="[io_dt_AbbyOutput]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="337.6,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" Range="[Nothing]" SheetName="[in_Config(&quot;AbbyOutputSheetName&quot;).ToString.trim]" />
+                  <ui:ExcelReadRange AddHeaders="True" DataTable="[io_dt_AbbyOutput]" DisplayName="Read Range || Abby output file" sap:VirtualizedContainerService.HintSize="337.6,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" Range="[Nothing]" SheetName="[in_Config(&quot;AbbyOutputSheetName&quot;).ToString.trim]" />
                 </Sequence>
               </ActivityAction>
             </ui:ExcelApplicationScope.Body>
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                 <x:Boolean x:Key="IsPinned">False</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
@@ -188,22 +175,23 @@
         </Sequence>
       </If.Then>
       <If.Else>
-        <Sequence sap:VirtualizedContainerService.HintSize="400,202.4" sap2010:WorkflowViewState.IdRef="Sequence_33">
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
-          <Throw Exception="[New BusinessRuleException(in_Config(&quot;BRE_AbbyOutputFileNotFound&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="337.6,90.4" sap2010:WorkflowViewState.IdRef="Throw_2" />
-        </Sequence>
+        <Throw DisplayName="Throw || BRE Abby output file not found" Exception="[New BusinessRuleException(in_Config(&quot;BRE_AbbyOutputFileNotFound&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="334.4,90.4" sap2010:WorkflowViewState.IdRef="Throw_2" />
       </If.Else>
     </If>
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ExcelColumnsCheckWorkflow.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="575.2,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_32" UnSafe="False" WorkflowFileName="ExcelColumnsCheckWorkflow.xaml">
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ExcelColumnsCheckWorkflow.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="509.6,113.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_32" UnSafe="False" WorkflowFileName="ExcelColumnsCheckWorkflow.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_ColumnsName">[in_Config("Abby_ColumnNames").ToString]</InArgument>
-        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_IsColumnPresent">[IsColumnPresent]</OutArgument>
-        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_DtTransactionData">[io_dt_AbbyOutput]</InArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="out_AbsentColumnName">[AbsentColumnName]</OutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ColumnsName">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Abby_ColumnNames&quot;).ToString" />
+        </InArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_IsColumnPresent">
+          <VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="IsColumnPresent" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_AbsentColumnName">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="AbsentColumnName" />
+        </OutArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TransactionData">
+          <VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="io_dt_AbbyOutput" />
+        </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -212,7 +200,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:InvokeWorkflowFile>
-    <If Condition="[IsColumnPresent]" sap:VirtualizedContainerService.HintSize="575.2,52.8" sap2010:WorkflowViewState.IdRef="If_16">
+    <If Condition="[IsColumnPresent]" DisplayName="If || Check column present flag" sap:VirtualizedContainerService.HintSize="509.6,52.8" sap2010:WorkflowViewState.IdRef="If_16">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -220,39 +208,26 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="400,204.8" sap2010:WorkflowViewState.IdRef="Sequence_35">
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
-          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="337.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Info: All the required columns are present in Abby output file.&quot;]" />
-        </Sequence>
+        <ui:LogMessage DisplayName="Log Message || required column present" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Info: All the required columns are present in Abby output file.&quot;]" />
       </If.Then>
       <If.Else>
-        <Sequence sap:VirtualizedContainerService.HintSize="400,202.4" sap2010:WorkflowViewState.IdRef="Sequence_36">
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
-          <Throw Exception="[New BusinessRuleException(in_Config(&quot;BRE_ColumnsNotFoundInAbby&quot;).ToString+AbsentColumnName)]" sap:VirtualizedContainerService.HintSize="337.6,90.4" sap2010:WorkflowViewState.IdRef="Throw_3" />
-        </Sequence>
+        <Throw DisplayName="Throw || BRE Columns not found in abby output" Exception="[New BusinessRuleException(in_Config(&quot;BRE_ColumnsNotFoundInAbby&quot;).ToString+AbsentColumnName)]" sap:VirtualizedContainerService.HintSize="334.4,90.4" sap2010:WorkflowViewState.IdRef="Throw_3" />
       </If.Else>
     </If>
-    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="575.2,823.2" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[in_Config(&quot;Abby_ColumnNames&quot;).ToString.Split(&quot;,&quot;c)]">
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each || column in abyy output file" sap:VirtualizedContainerService.HintSize="509.6,616" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[in_Config(&quot;Abby_ColumnNames&quot;).ToString.Split(&quot;,&quot;c)]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="x:String">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:String" Name="Column" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="540,697.6" sap2010:WorkflowViewState.IdRef="Sequence_37">
+          <Sequence DisplayName="loops on abby column names" sap:VirtualizedContainerService.HintSize="474.4,490.4" sap2010:WorkflowViewState.IdRef="Sequence_37">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <If Condition="[io_dt_AbbyOutput.AsEnumerable.Any(function(r) Not String.IsNullOrEmpty(r(Column).ToString.Trim))]" sap:VirtualizedContainerService.HintSize="477.6,585.6" sap2010:WorkflowViewState.IdRef="If_17">
+            <If Condition="[io_dt_AbbyOutput.AsEnumerable.Any(function(r) Not String.IsNullOrEmpty(r(Column).ToString.Trim))]" DisplayName="If || check value present in abby output file columns" sap:VirtualizedContainerService.HintSize="412,378.4" sap2010:WorkflowViewState.IdRef="If_17">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -260,24 +235,10 @@
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
               <If.Then>
-                <Sequence sap:VirtualizedContainerService.HintSize="400,204.8" sap2010:WorkflowViewState.IdRef="Sequence_38">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="337.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Info: there is some data available in req column: &quot;+Column]" />
-                </Sequence>
+                <ui:LogMessage DisplayName="Log Message || data present in columns" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Info: there is some data available in req column: &quot;+Column]" />
               </If.Then>
               <If.Else>
-                <Sequence sap:VirtualizedContainerService.HintSize="400,202.4" sap2010:WorkflowViewState.IdRef="Sequence_39">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <Throw Exception="[New BusinessRuleException(in_Config(&quot;BRE_NoDataInReqColumninAbby&quot;).ToString+Column)]" sap:VirtualizedContainerService.HintSize="337.6,90.4" sap2010:WorkflowViewState.IdRef="Throw_4" />
-                </Sequence>
+                <Throw DisplayName="Throw || BRE data is null in columns" Exception="[New BusinessRuleException(in_Config(&quot;BRE_NoDataInReqColumninAbby&quot;).ToString+Column)]" sap:VirtualizedContainerService.HintSize="334.4,90.4" sap2010:WorkflowViewState.IdRef="Throw_4" />
               </If.Else>
             </If>
           </Sequence>
